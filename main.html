@@ -1,16 +1,109 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>MyBookList</title>
+    <!-- Bootstrap CDN for easy styling -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #fff;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 3rem;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-weight: 300;
+        }
+        h1 span {
+            color: #3498db;
+        }
+        .form-group {
+            max-width: 900px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+        .table-container {
+            max-width: 950px;
+            margin: 40px auto 0 auto;
+        }
+        .delete {
+            color: #fff;
+            background-color: #dc3545;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 13px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+    </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+    <h1>My<span>Book</span>List</h1>
+    <div class="form-group">
+        <form id="book-form">
+            <label>Title</label>
+            <input type="text" id="title" class="form-control" autocomplete="off">
+            <label>Author</label>
+            <input type="text" id="author" class="form-control" autocomplete="off">
+            <label>ISBN#</label>
+            <input type="text" id="isbn" class="form-control" autocomplete="off">
+            <br>
+            <button type="submit" id="submit" class="btn btn-primary">Add Book</button>
+        </form>
+    </div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN#</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="book-list">
+                <!-- dynamic content here -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById('book-form').addEventListener('submit', function(e) {
+            e.preventDefault();
 
+            // Get values from inputs
+            const title = document.getElementById('title').value.trim();
+            const author = document.getElementById('author').value.trim();
+            const isbn = document.getElementById('isbn').value.trim();
+
+            // Prevent addition if fields are empty
+            if (!title || !author || !isbn) return;
+
+            // Create a table row and cells
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${title}</td>
+                <td>${author}</td>
+                <td>${isbn}</td>
+                <td><button class="delete">X</button></td>
+            `;
+
+            // Add row to table
+            document.getElementById('book-list').appendChild(row);
+
+            // Clear input fields
+            document.getElementById('title').value = '';
+            document.getElementById('author').value = '';
+            document.getElementById('isbn').value = '';
+        });
+
+        // Event delegation for delete buttons
+        document.getElementById('book-list').addEventListener('click', function(e){
+            if(e.target.classList.contains('delete')){
+                e.target.closest('tr').remove();
+            }
+        });
+    </script>
 </body>
-
 </html>
